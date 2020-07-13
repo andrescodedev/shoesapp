@@ -3,16 +3,23 @@ import 'package:flutter/material.dart';
 class ShoesDescription extends StatelessWidget {
   final String title;
   final String description;
+  final bool fullScreen;
 
-  ShoesDescription({@required this.title, @required this.description});
+  ShoesDescription(
+      {@required this.title,
+      @required this.description,
+      this.fullScreen = false});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: 30.0,
+        vertical: (!this.fullScreen) ? 0.0 : 10.0,
+      ),
       child: Container(
         width: double.infinity,
-        height: 150.0,
+        height: (!this.fullScreen) ? 150.0 : 121.0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

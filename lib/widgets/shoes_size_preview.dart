@@ -1,24 +1,51 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoesapp/models/shoes_model.dart';
+import 'package:shoesapp/pages/shoes_detail_page.dart';
 
 class ShoesSizePreview extends StatelessWidget {
-  const ShoesSizePreview({Key key}) : super(key: key);
+  final bool fullScreen;
+
+  ShoesSizePreview({this.fullScreen = false});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-      child: Container(
-        width: double.infinity,
-        height: 320.0,
-        decoration: BoxDecoration(
-          color: Color(0xffFFCF53),
-          borderRadius: BorderRadius.circular(30.0),
+    return GestureDetector(
+      onTap: () {
+        if (!fullScreen) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => ShoesDetailPage(),
+              ));
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: (this.fullScreen) ? 3.0 : 40.0,
+          vertical: (this.fullScreen) ? 0.0 : 20.0,
         ),
-        child: Column(
-          children: <Widget>[
-            _ShoesWithShadow(),
-            _ShoesSize(),
-          ],
+        child: Container(
+          width: double.infinity,
+          height: (this.fullScreen) ? 355.0 : 320.0,
+          decoration: BoxDecoration(
+              //color: Color(0xffFFCF53),
+              color: Colors.orangeAccent,
+              borderRadius: (!this.fullScreen)
+                  ? BorderRadius.circular(30.0)
+                  : BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
+                      bottomLeft: Radius.circular(50.0),
+                      bottomRight: Radius.circular(50.0),
+                    )),
+          child: Column(
+            children: <Widget>[
+              ShoesWithShadow(),
+              if (!this.fullScreen) _ShoesSize(),
+            ],
+          ),
         ),
       ),
     );
@@ -64,27 +91,39 @@ class _BoxSize extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 30.0,
-      height: 30.0,
-      decoration: BoxDecoration(
-        color: (this.size == 9) ? Color(0xffF1A23A) : Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          if (this.size == 9)
-            BoxShadow(
-              blurRadius: 10.0,
-              color: Color(0xffF1A23A),
-              offset: Offset(0.0, 5.0),
-            )
-        ],
-      ),
-      child: Center(
-        child: Text(
-          '${size.toString().replaceAll('.0', '')}',
-          style: TextStyle(
-            color: (this.size == 9) ? Colors.white : Color(0xffF1A23A),
-            fontWeight: FontWeight.bold,
+    final shoesModel = Provider.of<ShoesModel>(context);
+    return GestureDetector(
+      onTap: () {
+        shoesModel.setShoesSize = this.size;
+        print(shoesModel.getShoesSize);
+      },
+      child: Container(
+        width: 30.0,
+        height: 30.0,
+        decoration: BoxDecoration(
+          //Color(0xffF1A23A)
+          color: (this.size == shoesModel.getShoesSize)
+              ? Colors.blueGrey
+              : Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            if (this.size == shoesModel.getShoesSize)
+              BoxShadow(
+                blurRadius: 10.0,
+                color: Colors.blueGrey,
+                offset: Offset(0.0, 1.0),
+              )
+          ],
+        ),
+        child: Center(
+          child: Text(
+            '${size.toString().replaceAll('.0', '')}',
+            style: TextStyle(
+              color: (this.size == shoesModel.getShoesSize)
+                  ? Colors.white
+                  : Color(0xffF1A23A),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -92,11 +131,10 @@ class _BoxSize extends StatelessWidget {
   }
 }
 
-class _ShoesWithShadow extends StatelessWidget {
-  _ShoesWithShadow();
-
+class ShoesWithShadow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final shoesModel = Provider.of<ShoesModel>(context, listen: false);
     return Padding(
       padding: EdgeInsets.all(30.0),
       child: Stack(
@@ -106,10 +144,13 @@ class _ShoesWithShadow extends StatelessWidget {
             bottom: -20.0,
             left: 50.0,
           ),*/
-          Image(
-            image: AssetImage('assets/images/azul.png'),
-            fit: BoxFit.cover,
-          ),
+          FadeInRight(
+            duration: Duration(seconds: 3),
+            child: Image(
+              image: AssetImage(shoesModel.getImageRoute),
+              fit: BoxFit.cover,
+            ),
+          )
         ],
       ),
     );

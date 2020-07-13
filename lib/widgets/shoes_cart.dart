@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:shoesapp/widgets/orange_buttom.dart';
 
 class ShoesCart extends StatelessWidget {
-  final double size;
+  final double shoesValue;
+  final String buttonText;
+  final double buttonWidth;
+  final bool buttonBackgroundColor;
+  final bool fullScreen;
 
-  ShoesCart({@required this.size});
+  ShoesCart(
+      {@required this.shoesValue,
+      @required this.buttonText,
+      this.buttonWidth,
+      this.buttonBackgroundColor = true,
+      this.fullScreen = false});
 
   @override
   Widget build(BuildContext context) {
@@ -11,20 +21,23 @@ class ShoesCart extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
       child: Container(
         width: double.infinity,
-        height: 60.0,
+        height: (!fullScreen) ? 60.0 : 20.0,
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         decoration: BoxDecoration(
-          color: Colors.black12,
+          color: (buttonBackgroundColor)
+              ? Colors.grey.withOpacity(0.2)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(30.0),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _ShoesValueText(
-              value: 180.0,
+              value: this.shoesValue,
             ),
-            _AddToCart(
-              size: this.size,
+            OrangeButtom(
+              text: this.buttonText,
+              width: this.buttonWidth,
             ),
           ],
         ),
@@ -33,7 +46,7 @@ class ShoesCart extends StatelessWidget {
   }
 }
 
-class _AddToCart extends StatelessWidget {
+/*class _AddToCart extends StatelessWidget {
   final double size;
 
   _AddToCart({@required this.size});
@@ -54,7 +67,7 @@ class _AddToCart extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
     );
   }
-}
+}*/
 
 class _ShoesValueText extends StatelessWidget {
   final double value;
@@ -64,8 +77,8 @@ class _ShoesValueText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '$value',
-      style: TextStyle(fontWeight: FontWeight.bold),
+      '\$$value',
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
     );
   }
 }
