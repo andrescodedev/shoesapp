@@ -28,7 +28,7 @@ class ShoesSizePreview extends StatelessWidget {
         ),
         child: Container(
           width: double.infinity,
-          height: (this.fullScreen) ? 355.0 : 320.0,
+          height: (this.fullScreen) ? 410.0 : 370.0,
           decoration: BoxDecoration(
               //color: Color(0xffFFCF53),
               color: Colors.orangeAccent,
@@ -134,7 +134,7 @@ class _BoxSize extends StatelessWidget {
 class ShoesWithShadow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final shoesModel = Provider.of<ShoesModel>(context, listen: false);
+    final shoesModel = Provider.of<ShoesModel>(context);
     return Padding(
       padding: EdgeInsets.all(30.0),
       child: Stack(

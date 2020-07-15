@@ -195,7 +195,6 @@ class _CircleShape extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           shoesModel.setImageRoute = this.urlImage;
-          ShoesWithShadow().build(context);
         },
         child: Container(
           width: 30.0,
