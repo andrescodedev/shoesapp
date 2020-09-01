@@ -1,6 +1,6 @@
 # shoesapp
 
-A new Flutter project.
+This project is an application that allow you to choose the color for your shoes.
 
 ## Getting Started
 
